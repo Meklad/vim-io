@@ -12,9 +12,12 @@ class UserController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200
+        ]);
     }
 
     /**
@@ -24,7 +27,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200
+        ]);
     }
 
     /**
@@ -34,7 +40,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200
+        ]);
     }
 
     /**
@@ -45,7 +54,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200
+        ]);
     }
 
     /**
@@ -55,6 +67,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200
+        ]);
     }
 }
