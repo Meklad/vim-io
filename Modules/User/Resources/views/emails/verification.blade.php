@@ -4,10 +4,7 @@
     <title>vim.io</title>
 </head>
 <body>
-    <h1>Welcome {{ $name }} To VimIo</h1>
-    <p>
-        You Successfully Registerd At Our Service.
-    </p>
+    <h1>Account Verification From VimIo</h1>
 
     <p>
         Your Verification Code Is: {{ $code }}, Keep it to verify your account.

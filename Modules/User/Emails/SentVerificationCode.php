@@ -8,7 +8,7 @@ use Modules\User\Entities\User;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserRegisted extends Mailable implements ShouldQueue
+class SentVerificationCode extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -26,8 +26,8 @@ class UserRegisted extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject("Welcome To VimIo")
-                    ->view("user::emails.user_registed")->with([
+        return $this->subject("Verification Email")
+                    ->view("user::emails.verification")->with([
                         "name" => $this->user->name,
                         "code" => $this->user->accountVerification->code
                     ]);

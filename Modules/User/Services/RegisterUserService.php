@@ -14,9 +14,8 @@ class RegisterUserService
     public function registerUser(array $payload): User
     {
         $user = $this->createNewUser($payload);
-
+        $this->createVerification($user);
         $this->sentWelcomeMail($user);
-
         return $user;
     }
 
@@ -29,6 +28,16 @@ class RegisterUserService
             'name' => $payload["name"],
             'email' => $payload["email"],
             'password' => bcrypt($payload["password"])
+        ]);
+    }
+
+    /**
+     * Generate verification code.
+     */
+    public function createVerification(User $user): void
+    {
+        $user->accountVerification()->create([
+            "code" => rand(1000, 9999)
         ]);
     }
 
