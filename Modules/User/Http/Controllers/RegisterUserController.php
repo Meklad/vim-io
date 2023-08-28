@@ -26,7 +26,7 @@ class RegisterUserController extends Controller
 
         return $this->respond(
             success: true,
-            status: 201,
+            status: Response::HTTP_CREATED,
             message: "Welcome {$user->name} To VimIo, You Completed The Registiration Successfully.",
         );
     }
