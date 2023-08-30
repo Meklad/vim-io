@@ -35,4 +35,13 @@ class AccountVerification extends Model
     {
         return $this->belongsTo(User::class, "user_id");
     }
+
+    /**
+     * Verify User Account
+     */
+    public function verify(): void
+    {
+        $this->update(["is_used" => true]);
+        $this->user()->update(["email_verified_at" => now()]);
+    }
 }

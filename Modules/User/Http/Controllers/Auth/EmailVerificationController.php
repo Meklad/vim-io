@@ -3,26 +3,32 @@
 namespace Modules\User\Http\Controllers\Auth;
 
 use App\Traits\JsonResponse;
+use Illuminate\Http\JsonResponse as Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
 use Modules\User\Emails\SentVerificationCode;
+use Modules\User\Http\Requests\VerifyAccountRequest;
+use Modules\User\Services\AccountVerificationService;
 
 class EmailVerificationController extends Controller
 {
     use JsonResponse;
 
-    public function __construct()
+    /**
+     * EmailVerificationController Constructor.
+     */
+    public function __construct(public AccountVerificationService $verificationService)
     {
         $this->middleware("auth:sanctum");
     }
 
-    public function resentVerification(Request $request)
+    /**
+     * Resent email with Verification code.
+     */
+    public function resentVerification(Request $request): Response
     {
-        if(!$request->user()->hasVerifiedEmail()) {
-            Mail::to($request->user()->email)->send(new SentVerificationCode($request->user()));
-
+        if($this->verificationService->resent($request->user())) {
             return $this->respond(
                 success: true,
                 status: Response::HTTP_OK,
@@ -37,8 +43,17 @@ class EmailVerificationController extends Controller
         );
     }
 
-    public function verifying(Request $request)
+    /**
+     * Verifiy user account.
+     */
+    public function verifying(VerifyAccountRequest $request): Response
     {
-        dd("verifying");
+        $this->verificationService->verifying($request->get("code"));
+
+        return $this->respond(
+            success: true,
+            status: Response::HTTP_OK,
+            message: "Your Account Has Been Verified."
+        );
     }
 }
