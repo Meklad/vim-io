@@ -2,11 +2,16 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use App\Traits\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
+    use JsonResponse;
+
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -23,8 +28,16 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function(Throwable $e) {
+            if(request()->wantsJson()) {
+                if($e instanceof NotFoundHttpException) {
+                    return $this->respond(
+                        success: false,
+                        status: Response::HTTP_NOT_FOUND,
+                        message: $e->getMessage()
+                    );
+                }
+            }
         });
     }
 }

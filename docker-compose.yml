@@ -25,6 +25,7 @@ services:
             - mysql
             - redis
             - mailpit
+            - phpmyadmin
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -49,6 +50,14 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: 'phpmyadmin:latest'
+        ports:
+            - 8088:80
+        networks:
+            - sail
+        environment:
+            - PMA_ARBITRARY=1
     redis:
         image: 'redis:alpine'
         ports:

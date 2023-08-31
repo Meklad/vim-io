@@ -21,24 +21,12 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update the specified resource in storage.
      * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        return response()->json([
-            "success" => true,
-            "status" => 200
-        ]);
-    }
-
-    /**
-     * Show the specified resource.
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function update(Request $request, $id)
     {
         return response()->json([
             "success" => true,
@@ -52,7 +40,7 @@ class UserController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function updatePassword(Request $request, $id)
     {
         return response()->json([
             "success" => true,
