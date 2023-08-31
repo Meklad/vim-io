@@ -63,4 +63,16 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(AccountVerification::class);
     }
+
+    /**
+     * Generate verifiaction code if not exists, than return it.
+     */
+    public function generateVerificationCode(): int
+    {
+        if(empty($this->accountVerification)) {
+            $this->accountVerification()->create(["code" => rand(1000, 9999)]);
+        }
+        $this->load("accountVerification");
+        return $this->accountVerification->code;
+    }
 }

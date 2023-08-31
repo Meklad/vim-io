@@ -31,19 +31,16 @@ class AccountVerificationService
      */
     public function verifying(int $code): bool|Throwable
     {
-        $accountVerification = AccountVerification::where("code", $code)->where("is_used", false)->first();
+        $accountVerification = AccountVerification::where("code", $code)->first();
 
-        if(empty($accountVerification)) {
-            return true;
-        }
-
-        if(!empty($accountVerification) && auth()->user()->id != $accountVerification->user_id) {
+        if(empty($accountVerification) || auth()->user()->id != $accountVerification->user_id || $accountVerification->code != $code) {
             throw new WrongVerificationCodeException;
         }
 
-        $accountVerification->verify();
-
-        Mail::to(auth()->user()->email)->send(new ThankYouForVerifingYourAccount($accountVerification->user));
+        if($accountVerification->is_used == false) {
+            $accountVerification->verify();
+            Mail::to(auth()->user()->email)->send(new ThankYouForVerifingYourAccount($accountVerification->user));
+        }
 
         return true;
     }
