@@ -24,7 +24,7 @@ class LoginUserService
                 ],
                 'authorization' => [
                     "token" => $user->createToken(config("sanctum.api_key"))->plainTextToken,
-                    "token_type" => "bearer"
+                    "token_type" => "Bearer"
                 ]
             ];
         }
